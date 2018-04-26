@@ -1,6 +1,11 @@
 /**index.wxss**/
+.weather-wrapper {
+  padding-top: 174rpx;
+  padding-bottom: 240rpx;
+  background-color: moccasin;
+}
+
 .temp {
-  margin-top: 300rpx;
   text-align: center;
   font-size: 200rpx;
   line-height: 280rpx;
