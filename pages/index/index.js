@@ -21,7 +21,8 @@ Page({
   data: {
     nowTemp: '',
     nowWeather: '',
-    nowWeatherBackground: ''
+    nowWeatherBackground: '',
+    forecast: []
   },
   onPullDownRefresh() {
     this.getNow(()=> {
@@ -58,6 +59,22 @@ Page({
           frontColor: '#000000',
           backgroundColor: weatherColorMap[weather]
         })
+
+        //set forecast
+        let forecast = []
+        let nowHour = new Date().getHours()
+        for (let i = 0; i < 24; i += 3) {
+          forecast.push({
+            time: (i + nowHour) % 24 + "时",
+            iconPath: '/images/sunny-icon.png',
+            temp: "12°"
+          })
+        }
+        forecast[0].time = '现在'
+        this.setData({
+          forecast:forecast
+        })
+
       },
       complete: ()=> {
         callback && callback()
