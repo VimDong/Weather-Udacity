@@ -10,7 +10,7 @@ const weatherMap = {
 
 Page({
   data: {
-    nowTemp: '14',
+    nowTemp: '14°C',
     nowWeather: '阴天'
   },
   onLoad() {
