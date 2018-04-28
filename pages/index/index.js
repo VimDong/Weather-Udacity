@@ -21,10 +21,20 @@ Page({
   data: {
     nowTemp: '',
     nowWeather: '',
-    nowWeatherBackground: ''
+    nowWeatherBackground: '',
+    hourlyWeather: []
   },
+  onPullDownRefresh() {
+    this.getNow(()=> {
+      wx.stopPullDownRefresh()
+    })
+  },
+
   onLoad() {
-    var that = this
+    this.getNow()
+  },
+
+  getNow(callback){
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
@@ -49,6 +59,26 @@ Page({
           frontColor: '#000000',
           backgroundColor: weatherColorMap[weather]
         })
+
+        //set hourlyWeather
+        let forecast = result.forecast
+        let hourlyWeather = []
+        let nowHour = new Date().getHours()
+        for (let i = 0; i < 24; i += 3) {
+          hourlyWeather.push({
+            time: (i + nowHour) % 24 + "时",
+            iconPath: '/images/'+ forecast[i/3].weather +'-icon.png',
+            temp: forecast[i/3].temp + "°C"
+          })
+        }
+        hourlyWeather[0].time = '现在'
+        this.setData({
+          hourlyWeather: hourlyWeather
+        })
+
+      },
+      complete: ()=> {
+        callback && callback()
       }
     })
   }
