@@ -22,7 +22,9 @@ Page({
     nowTemp: '',
     nowWeather: '',
     nowWeatherBackground: '',
-    hourlyWeather: []
+    hourlyWeather: [],
+    todayTemp: '',
+    todayDate: ''
   },
   onPullDownRefresh() {
     this.getNow(()=> {
@@ -34,7 +36,7 @@ Page({
     this.getNow()
   },
 
-  getNow(callback){
+  getNow(callback) {
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
@@ -48,6 +50,7 @@ Page({
 
         this.setNow(result);
         this.setHourlyWeather(result);
+        this.setToday(result);
 
       },
       complete: ()=> {
@@ -56,7 +59,7 @@ Page({
     })
   },
 
-  setNow(result){
+  setNow(result) {
     let temp = result.now.temp
     let weather = result.now.weather
 
@@ -72,7 +75,7 @@ Page({
     })
   },
 
-  setHourlyWeather(result){
+  setHourlyWeather(result) {
     //set hourlyWeather
     let forecast = result.forecast
     let hourlyWeather = []
@@ -88,6 +91,13 @@ Page({
     this.setData({
       hourlyWeather: hourlyWeather
     })
-  }
+  },
 
+  setToday(result) {
+    let date = new Date()
+    this.setData({
+      todayTemp: `${result.today.minTemp}° - ${result.today.maxTemp}°`,
+      todayDate: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} 今天`
+    })
+  }
 })
