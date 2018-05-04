@@ -6,7 +6,7 @@ const weatherMap = {
   'lightrain': '小雨',
   'heavyrain': '大雨',
   'snow': '雪'
-}
+};
 
 const weatherColorMap = {
  'sunny': '#cbeefd',
@@ -15,7 +15,9 @@ const weatherColorMap = {
  'lightrain': '#bdd5e1',
  'heavyrain': '#c5ccd0',
  'snow': '#aae1fc'
-}
+};
+
+const QQMapWX = require('../../libs/qqmap-wx-jssdk.js')
 
 Page({
   data: {
@@ -33,7 +35,10 @@ Page({
   },
 
   onLoad() {
-    this.getNow()
+    this.getNow();
+    this.qqmapsdk = new QQMapWX({
+      key: 'EAXBZ-33R3X-AA64F-7FIPQ-BY27J-5UF5B'
+    })
   },
 
   getNow(callback) {
@@ -104,6 +109,24 @@ Page({
   onTapDayWeather() {
     wx.navigateTo({
       url: '/pages/list/list'
+    })
+  },
+
+  onTapLocation() {
+    wx.getLocation({
+      success: res => {
+        // console.log(res.latitude, res.longitude);
+        this.qqmapsdk.reverseGeocoder({
+          location: {
+            latitude: res.latitude,
+            longitude: res.longitude
+          },
+          success: res => {
+            let city = res.result.address_component.city
+            console.log(city);
+          }
+        })
+      }
     })
   }
 })
