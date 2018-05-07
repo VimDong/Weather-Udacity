@@ -3,10 +3,14 @@ const dayMap = ['星期日', '星期一', '星期二', '星期三', '星期四',
 
 Page({
   data: {
-    weekWeather: []
+    weekWeather: [],
+    city: '深圳市'
   },
 
-  onLoad() {
+  onLoad(options) {
+    this.setData({
+      city: options.city
+    }),
     this.getWeekWeather()
   },
 
@@ -21,7 +25,7 @@ Page({
       url: 'https://test-miniprogram.com/api/weather/future',
       data: {
         time: new Date().getTime(),
-        city: '深圳市'
+        city: this.data.city
       },
 
       success: res => {

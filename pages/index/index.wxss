@@ -31,6 +31,7 @@
 .location-tips{
   margin-top:10rpx;
   text-align: center;
+  height: 42rpx; /* 固定高度，没有内容时也有行高 */
 }
 
 .temp {

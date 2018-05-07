@@ -26,7 +26,9 @@ Page({
     nowWeatherBackground: '',
     hourlyWeather: [],
     todayTemp: '',
-    todayDate: ''
+    todayDate: '',
+    city: '深圳市',
+    locationTipsText: '点击获取当前位置'
   },
   onPullDownRefresh() {
     this.getNow(()=> {
@@ -45,10 +47,8 @@ Page({
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
-        city: '深圳市'
+        city: this.data.city
       },
-      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      // header: {}, // 设置请求的 header
       success: res => {
         console.log(res.data);
         let result = res.data.result;
@@ -108,7 +108,7 @@ Page({
 
   onTapDayWeather() {
     wx.navigateTo({
-      url: '/pages/list/list'
+      url: '/pages/list/list?city=' + this.data.city,
     })
   },
 
@@ -123,7 +123,13 @@ Page({
           },
           success: res => {
             let city = res.result.address_component.city
-            console.log(city);
+
+            this.setData({
+              city: city,
+              locationTipsText: ''
+            })
+
+            this.getNow()
           }
         })
       }
