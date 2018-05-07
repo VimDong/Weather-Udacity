@@ -4,7 +4,7 @@ const dayMap = ['星期日', '星期一', '星期二', '星期三', '星期四',
 Page({
   data: {
     weekWeather: [],
-    city: '深圳市'
+    city: '广州市'
   },
 
   onLoad(options) {
